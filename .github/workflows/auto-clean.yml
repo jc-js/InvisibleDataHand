@@ -1,0 +1,24 @@
+name: Cleanup
+
+on:
+  pull_request:
+    types: [closed] 
+
+jobs:
+  delete-branch:
+    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true }} 
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Delete branch
+      run: |
+        branch=${{ github.event.pull_request.head.ref }}
+        if [ "$branch" != "main" ]; then  # Ensure main or default branch is not deleted
+          git push origin --delete $branch
+        fi
+
+
