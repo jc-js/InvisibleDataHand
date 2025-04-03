@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: fastapiServer
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/invisibledatahand:delegated
+    environment:
+      - ENV=development
+      - PYTHONDONTWRITEBYTECODE=1
+    command: fastapi run server/main.py --port 8000 --reload
+  
