@@ -43,4 +43,8 @@ async def read_root():
 async def root():
     return {"message": "Hello World"}
 
+@app.get("/test_1", tags=[Tags.test])
+async def root():
+    return {"message": "Testing mesage"}
+
 app.include_router(yfinanceRouter, prefix="/api/v1", tags=[Tags.trading])
