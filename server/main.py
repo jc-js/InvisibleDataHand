@@ -35,6 +35,10 @@ class Tags(Enum):
     test = "server"
     trading = "trading"
 
+@app.get("/", tags=[Tags.test])
+async def read_root():
+    return {"message": "Hello World"}
+
 @app.get("/hello", tags=[Tags.test])
 async def root():
     return {"message": "Hello World"}
