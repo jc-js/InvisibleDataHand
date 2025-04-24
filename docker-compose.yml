@@ -13,7 +13,7 @@ services:
     environment:
       - ENV=development
       - PYTHONDONTWRITEBYTECODE=1
-      #- AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_ENDPOINT_URL=http://localstack:4566
     command: fastapi run server/main.py --port 8000 --reload
     depends_on:
       - localstack
