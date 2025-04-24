@@ -8,8 +8,30 @@ services:
       - "8000:8000"
     volumes:
       - .:/invisibledatahand:delegated
+    env_file:
+      - .env
     environment:
       - ENV=development
       - PYTHONDONTWRITEBYTECODE=1
+      #- AWS_ENDPOINT_URL=http://localstack:4566
     command: fastapi run server/main.py --port 8000 --reload
-  
+    depends_on:
+      - localstack
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"            
+      - "4510-4559:4510-4559"  
+    environment:
+    - DEBUG=1
+    - DOCKER_HOST=unix:///var/run/docker.sock
+    - SERVICES=s3
+    - DEFAULT_REGION=us-east-2
+    - AWS_ACCESS_KEY_ID=test
+    - AWS_SECRET_ACCESS_KEY=test
+    - DATA_DIR=/var/lib/localstack/data
+    volumes:
+      - "./localstack-data:/var/lib/localstack/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./init-localstack.sh:/etc/localstack/init/ready.d/init-script.sh
