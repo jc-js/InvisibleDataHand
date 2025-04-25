@@ -1,6 +1,4 @@
-from datetime import datetime
 import logging
-import os 
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -44,8 +42,8 @@ async def read_root():
     return {"message": "Hello World"}
 
 
-@app.get("/hello", tags=[Tags.test])
-async def root():
+@app.get("/list-buckets", tags=[Tags.test])
+async def hello():
     buckets = s3_client.list_buckets()
     return {"buckets": [bucket["Name"] for bucket in buckets["Buckets"]]}
 
