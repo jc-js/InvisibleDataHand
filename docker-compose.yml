@@ -17,6 +17,21 @@ services:
     command: fastapi run server/main.py --port 8000 --reload
     depends_on:
       - localstack
+  
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: reactClient
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/invisibledatahand/client:delegated
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+    command: npm run dev -- --host 0.0.0.0
   localstack:
     image: localstack/localstack:latest
     container_name: localstack
