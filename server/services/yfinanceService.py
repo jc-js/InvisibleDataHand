@@ -1,5 +1,7 @@
 import yfinance as yf
 from server.schemas.yfinanceSchema import StockInfoSchema
+
+
 class YFinanceService:
     def get_info(self, ticker: str) -> StockInfoSchema:
         dat = yf.Ticker(ticker)

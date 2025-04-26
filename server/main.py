@@ -10,6 +10,7 @@ from server.aws.s3_client import s3_client
 
 logging.basicConfig(level=logging.INFO)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logging.info("Initializing database...")
@@ -53,41 +54,42 @@ async def upload_file_to_s3(file: UploadFile = File(...)):
     try:
         contents = await file.read()
         file_name = file.filename
-        
+
         s3_client.put_object(
-            Bucket=BUCKET_NAME,
-            Key=file_name,
-            Body=contents,
-            ContentType='text/plain'
+            Bucket=BUCKET_NAME, Key=file_name, Body=contents, ContentType="text/plain"
         )
 
         return {"message": f"'{file_name}' uploaded successfully to {BUCKET_NAME}"}
     except Exception as e:
         return {"error": str(e)}
-    
+
+
 @app.get("/list-objects", tags=[Tags.test])
 async def list_buckets():
     try:
         response = s3_client.list_objects_v2(Bucket=BUCKET_NAME)
-        if 'Contents' in response:
-            objects = [obj['Key'] for obj in response['Contents']]
+        if "Contents" in response:
+            objects = [obj["Key"] for obj in response["Contents"]]
             return {"objects": objects}
         else:
             return {"message": "No objects found."}
     except Exception as e:
         return {"error": str(e)}
 
+
 @app.get("/get-object/{object_key}", tags=[Tags.test])
 async def get_object(object_key: str):
     try:
         response = s3_client.get_object(Bucket=BUCKET_NAME, Key=object_key)
-        data = response['Body'].read().decode('utf-8')
+        data = response["Body"].read().decode("utf-8")
         return {"data": data}
     except Exception as e:
         return {"error": str(e)}
 
+
 @app.get("/test_1", tags=[Tags.test])
 async def root():
     return {"message": "Testing mesage"}
+
 
 app.include_router(yfinanceRouter, prefix="/api/v1", tags=[Tags.trading])
