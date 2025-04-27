@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   api:
-    build: .
+    build:
+      context: ./server
+      dockerfile: Dockerfile
     container_name: fastapiServer
     ports:
       - "8000:8000"
@@ -17,7 +19,7 @@ services:
     command: fastapi run server/main.py --port 8000 --reload
     depends_on:
       - localstack
-  
+
   client:
     build:
       context: ./client
@@ -36,16 +38,16 @@ services:
     image: localstack/localstack:latest
     container_name: localstack
     ports:
-      - "4566:4566"            
-      - "4510-4559:4510-4559"  
+      - "4566:4566"
+      - "4510-4559:4510-4559"
     environment:
-    - DEBUG=1
-    - DOCKER_HOST=unix:///var/run/docker.sock
-    - SERVICES=s3
-    - DEFAULT_REGION=us-east-2
-    - AWS_ACCESS_KEY_ID=test
-    - AWS_SECRET_ACCESS_KEY=test
-    - DATA_DIR=/var/lib/localstack/data
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - SERVICES=s3
+      - DEFAULT_REGION=us-east-2
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DATA_DIR=/var/lib/localstack/data
     volumes:
       - "./localstack-data:/var/lib/localstack/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
