@@ -28,11 +28,14 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./client:/invisibledatahand/client:delegated
+      - ./client:/app:delegated
+      - /app/node_modules
     env_file:
       - .env
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     command: npm run dev -- --host 0.0.0.0
   localstack:
     image: localstack/localstack:latest
