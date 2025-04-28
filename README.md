@@ -21,3 +21,22 @@
 * Frontend: React — running at http://localhost:5173
 
 * Backend: FastAPI — running at http://localhost:8000/docs
+
+
+## Run Frontend Only
+
+Set the directory:
+```bash
+cd client
+```
+Install libraries:
+```bash
+npm i 
+```
+Run the project:
+```bash
+npm run dev
+```
+
+
+  
