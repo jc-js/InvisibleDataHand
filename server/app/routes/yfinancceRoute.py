@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from server.services import yfinanceService
-from server.schemas import yfinanceSchema
+from ..services import yfinanceService
+from ..schemas import yfinanceSchema
 
 
 router = APIRouter()
