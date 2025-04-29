@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Chart } from 'primereact/chart';
+import { Chart, Chart as PrimeChart } from 'primereact/chart';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
+
 
 function FredChart() {
     const [chartData, setChartData] = useState(null);
@@ -56,6 +57,40 @@ function FredChart() {
             title: {
                 display: true,
                 text: `FRED Data - ${selectedSeries}`
+            },
+            zoom: {  // <== ADD ZOOM HERE
+                pan: {
+                    enabled: true,
+                    mode: 'x', // only horizontal pan
+                },
+                zoom: {
+                    wheel: {
+                        enabled: true,
+                    },
+                    pinch: {
+                        enabled: true
+                    },
+                    mode: 'x', // zoom only x axis (time)
+                }
+            }
+        },
+        elements: {
+            point: {
+                radius: 0 // <== REMOVE POINTS (makes them invisible)
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Date'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Value'
+                }
             }
         }
     };
