@@ -11,6 +11,11 @@ function NavBar() {
             command: () => navigate('/')
         },
         {
+            label: 'Chart',
+            icon: 'pi pi-chart-line',
+            command: () => navigate('/chart')
+        },
+        {
             label: 'Features',
             icon: 'pi pi-star',
             command: () => navigate('/about')
