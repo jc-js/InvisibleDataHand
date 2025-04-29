@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query
 from typing import Optional
-from server.services.fredService import FredService
+from ..services.fredService import FredService
 
 router = APIRouter(prefix="/fred", tags=["fred"])
 

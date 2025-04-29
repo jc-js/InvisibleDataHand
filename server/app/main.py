@@ -5,9 +5,10 @@ from fastapi import FastAPI
 from fastapi import UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore
 from enum import Enum
-from server.routes.yfinancceRoute import router as yfinanceRouter
-from server.routes.fredRoute import router as fredRouter
-from server.aws.s3_client import s3_client
+
+from .routes.yfinancceRoute import router as yfinanceRouter
+from .routes.fredRoute import router as fredRouter
+from .aws.s3_client import s3_client
 
 logging.basicConfig(level=logging.INFO)
 
@@ -41,7 +42,7 @@ BUCKET_NAME = "invisible-data-hand-data-lake"
 
 @app.get("/", tags=[Tags.test])
 async def read_root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World from FastAPI"}
 
 
 @app.get("/list-buckets", tags=[Tags.test])

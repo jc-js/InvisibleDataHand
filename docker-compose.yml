@@ -9,14 +9,14 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/invisibledatahand:delegated
+      - ./server:/app:delegated
     env_file:
       - .env
     environment:
       - ENV=development
       - PYTHONDONTWRITEBYTECODE=1
       - AWS_ENDPOINT_URL=http://localstack:4566
-    command: fastapi run server/main.py --port 8000 --reload
+    command: fastapi run app/main.py --port 8000 --reload
     depends_on:
       - localstack
 
