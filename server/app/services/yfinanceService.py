@@ -1,5 +1,5 @@
 import yfinance as yf
-from server.schemas.yfinanceSchema import StockInfoSchema
+from ..schemas.yfinanceSchema import StockInfoSchema
 
 
 class YFinanceService:
