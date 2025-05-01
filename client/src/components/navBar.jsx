@@ -53,9 +53,11 @@ function NavBar() {
         }
     ];
     return (
+
         <div className="card">
             <Menubar model={items} />
         </div>
+
     );
 }
 
