@@ -2,8 +2,8 @@ import logoImg from '../assets/logo.png';
 function About() {
     return (
         <div>
-            <h1>holaaa</h1>
-            <img src={logoImg} alt="PrimeVue Logo" />
+            <h1>Welconme to the best data page</h1>
+            <img src={logoImg} alt="Application Logo" />
         </div>
 
 
