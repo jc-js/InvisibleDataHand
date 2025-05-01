@@ -84,6 +84,7 @@ function NavBar() {
                 className="custom-navbar"
             />
         </div>
+
     );
 }
 

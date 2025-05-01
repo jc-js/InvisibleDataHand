@@ -1,14 +1,15 @@
 {
-  "builds": [
-    {
-      "src": "server/app/main.py",
-      "use": "@vercel/python"
-    }
-  ],
+  "buildCommand": "cd client && npm install && npm run build",
+  "outputDirectory": "client/dist",
+  "framework": "vite",
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "server/app/main.py"
+      "dest": "/index.html"
     }
   ]
 }
