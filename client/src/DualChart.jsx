@@ -7,6 +7,7 @@ function DualChart() {
     const [series, setSeries] = useState('CPIAUCSL');
     const [dataPoints, setDataPoints] = useState([]);
     const [loading, setLoading] = useState(false);
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
     const seriesOptions = [
         { label: 'Consumer Price Index (CPI)', value: 'CPIAUCSL', description: 'Measures changes in the price level of a basket of consumer goods and services.' },
@@ -21,7 +22,7 @@ function DualChart() {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const res = await axios.get(`http://localhost:8000/api/v1/fred/observations/${series}?sort_order=asc`);
+                const res = await axios.get(`${API_BASE_URL}/api/v1/fred/observations/${series}?sort_order=asc`);
                 setDataPoints(res.data.observations);
             } catch (err) {
                 console.error('Error fetching data:', err);
