@@ -6,34 +6,28 @@ import axios from 'axios';
 
 function ChartBuilder() {
     const [seriesIdInput, setSeriesIdInput] = useState('');
-    const [charts, setCharts] = useState([]);
-    const [loaded, setLoaded] = useState(false); // <-- ADD THIS
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
-    // Load from localStorage on first mount
-    useEffect(() => {
-        const savedCharts = localStorage.getItem('saved_charts');
-        if (savedCharts) {
-            try {
-                setCharts(JSON.parse(savedCharts));
-            } catch (e) {
-                console.error('Error parsing saved_charts:', e);
-            }
+    const [charts, setCharts] = useState(() => {
+        const saved = localStorage.getItem('saved_charts');
+        try {
+            return saved ? JSON.parse(saved) : [];
+        } catch (e) {
+            console.error('Error parsing saved_charts:', e);
+            return [];
         }
-        setLoaded(true); // <-- Mark loading finished
-    }, []);
-
-    // Save to localStorage whenever charts change, but only after loading is done
+    });
+    
+    // Auto-save when charts change
     useEffect(() => {
-        if (loaded) {
-            localStorage.setItem('saved_charts', JSON.stringify(charts));
-        }
-    }, [charts, loaded]); // <-- notice we track `loaded`
+        localStorage.setItem('saved_charts', JSON.stringify(charts));
+    }, [charts]);
 
     const addChart = async () => {
         if (!seriesIdInput.trim()) return;
 
         try {
-            const res = await axios.get(`http://localhost:8000/api/v1/fred/observations/${seriesIdInput}?sort_order=asc`);
+            const res = await axios.get(`${API_BASE_URL}/api/v1/fred/observations/${seriesIdInput}?sort_order=asc`);
             const observations = res.data.observations;
 
             const xValues = observations.map(p => p.date);

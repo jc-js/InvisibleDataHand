@@ -7,6 +7,7 @@ import axios from 'axios';
 function FredChart() {
     const [chartData, setChartData] = useState(null);
     const [selectedSeries, setSelectedSeries] = useState('CPIAUCSL'); // default series
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
     const [loading, setLoading] = useState(false);
 
     const seriesOptions = [
@@ -19,7 +20,7 @@ function FredChart() {
     const fetchData = async (seriesId) => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:8000/api/v1/fred/observations/${seriesId}?sort_order=asc`);
+            const res = await axios.get(`${API_BASE_URL}/api/v1/fred/observations/${seriesId}?sort_order=asc`);
             const observations = res.data.observations;
 
             const labels = observations.map(obs => obs.date);
