@@ -1,8 +1,10 @@
 import './App.css'
 import NavBar from './components/navBar'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import About from './pages/about'
-import Home from './pages/home';
+import FredChart from './FredChart';
+import DualChart from './DualChart';
+import ChartBuilder from './ChartBuilder';
+import Home from './Home';
 
 function App() {
 
@@ -13,7 +15,9 @@ function App() {
         <NavBar></NavBar>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/chart" element={<FredChart />} /> {/* Add this line */}
+          <Route path="/compare" element={<DualChart />} />
+          <Route path="/builder" element={<ChartBuilder />} />
         </Routes>
       </BrowserRouter>
 

@@ -11,6 +11,21 @@ function NavBar() {
             command: () => navigate('/')
         },
         {
+            label: 'Economy View',
+            icon: 'pi pi-chart-line',
+            command: () => navigate('/chart')
+        },
+        {
+            label: 'Compare Charts',
+            icon: 'pi pi-chart-bar',
+            command: () => navigate('/compare')
+        },
+        {
+            label: 'Chart Builder',
+            icon: 'pi pi-plus-circle',
+            command: () => navigate('/builder')
+        },
+        {
             label: 'Features',
             icon: 'pi pi-star',
             command: () => navigate('/about')
@@ -53,9 +68,21 @@ function NavBar() {
         }
     ];
     return (
-
-        <div className="card">
-            <Menubar model={items} />
+        <div style={{
+            background: 'linear-gradient(to right, #007ad9, #66ccff)',
+            padding: '0.5rem 2rem',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+            marginBottom: '1rem'
+        }}>
+            <Menubar
+                model={items}
+                style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'white'
+                }}
+                className="custom-navbar"
+            />
         </div>
 
     );

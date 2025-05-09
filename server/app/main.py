@@ -5,7 +5,9 @@ from fastapi import FastAPI
 from fastapi import UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore
 from enum import Enum
+
 from .routes.yfinancceRoute import router as yfinanceRouter
+from .routes.fredRoute import router as fredRouter
 from .aws.s3_client import s3_client
 
 logging.basicConfig(level=logging.INFO)
@@ -93,3 +95,4 @@ async def root():
 
 
 app.include_router(yfinanceRouter, prefix="/api/v1", tags=[Tags.trading])
+app.include_router(fredRouter, prefix="/api/v1", tags=[Tags.trading])

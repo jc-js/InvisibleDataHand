@@ -39,4 +39,11 @@ npm run dev
 ```
 
 
-  
+## Libraries
+
+### Fred graphs
+
+- Consumer Price Index for All Urban Consumers: CPIAUCSL
+- Inflation: FPCPITOTLZGUSA
+- Unemployment Rate: UNRATE
+- Federal Funds Effective Rate: FEDFUNDS
