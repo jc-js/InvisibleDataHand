@@ -11,7 +11,7 @@ function NavBar() {
             command: () => navigate('/')
         },
         {
-            label: 'Chart',
+            label: 'Economy View',
             icon: 'pi pi-chart-line',
             command: () => navigate('/chart')
         },

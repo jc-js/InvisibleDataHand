@@ -7,7 +7,6 @@ router = APIRouter(prefix="/fred", tags=["fred"])
 @router.get("/observations/{series_id}")
 async def get_series_observations(
     series_id: str,
-    #api_key: str = Query(..., description="FRED API key"),
     limit: Optional[int] = Query(None, description="Limit number of observations"),
     observation_start: Optional[str] = Query(None, description="Start date (YYYY-MM-DD)"),
     observation_end: Optional[str] = Query(None, description="End date (YYYY-MM-DD)"),
@@ -20,7 +19,6 @@ async def get_series_observations(
     fred_service = FredService()
     observations = await fred_service.get_observations(
         series_id=series_id,
-        #api_key=api_key,
         limit=limit,
         observation_start=observation_start,
         observation_end=observation_end,
