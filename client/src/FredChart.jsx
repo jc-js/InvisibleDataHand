@@ -1,40 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import axios from 'axios';
+import { Checkbox } from 'primereact/checkbox';
+import { Divider } from 'primereact/divider';
+import { chartConfigs } from './config/fredChartChartsConfigs';
+import { getResponsiveWidth } from './utils/layout';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-
-const chartConfigs = [
-    {
-        id: 'FEDFUNDS',
-        title: 'Federal Funds Rate',
-        description: 'The federal funds rate is the interest rate at which depository institutions trade balances held at the Federal Reserve. It influences overall borrowing costs and is a key tool for managing inflation.',
-        source: 'https://www.investopedia.com/terms/f/federalfundsrate.asp'
-    },
-    {
-        id: 'CPIAUCSL',
-        title: 'Consumer Price Index (CPI)',
-        description: 'The CPI measures the average change over time in the prices paid by consumers for goods and services. It’s one of the most widely used indicators of inflation.',
-        source: 'https://www.investopedia.com/terms/c/consumerpriceindex.asp'
-    },
-    {
-        id: 'RETAILSMSA',
-        title: 'Retail and Food Services Sales',
-        description: 'Retail sales data shows consumer demand trends and economic health. A rising trend may indicate a growing economy.',
-        source: 'https://www.investopedia.com/terms/r/retail-sales.asp'
-    },
-    {
-        id: 'DTWEXBGS',
-        title: 'U.S. Dollar Index',
-        description: 'This index measures the strength of the U.S. dollar relative to other major currencies. A stronger dollar can reduce export competitiveness.',
-        source: 'https://www.investopedia.com/terms/u/usdx.asp'
-    }
-];
 
 function FredChart() {
     const [charts, setCharts] = useState([]);
     const [recessionRanges, setRecessionRanges] = useState([]);
+    const [showRecessions, setShowRecessions] = useState(true);
+    const [logScales, setLogScales] = useState({});
 
+    // Fetch recession shading ranges
     useEffect(() => {
         const fetchRecessionRanges = async () => {
             try {
@@ -64,81 +44,145 @@ function FredChart() {
         fetchRecessionRanges();
     }, []);
 
+    // Fetch all chart data
     useEffect(() => {
+        const flatConfigs = chartConfigs.flat();
+
         const fetchCharts = async () => {
-            const promises = chartConfigs.map(async ({ id }) => {
+            const promises = flatConfigs.map(async ({ id }) => {
                 try {
                     const res = await axios.get(`${API_BASE_URL}/api/v1/fred/observations/${id}?sort_order=asc`);
                     const observations = res.data.observations;
-
                     const xValues = observations.map(p => p.date);
                     const yValues = observations.map(p => parseFloat(p.value));
 
-                    const option = {
-                        title: { text: id },
-                        tooltip: { trigger: 'axis' },
-                        xAxis: { type: 'category', data: xValues },
-                        yAxis: { type: 'value', scale: true },
-                        dataZoom: [
-                            { type: 'slider', start: 60, end: 100 },
-                            { type: 'inside' }
-                        ],
-                        series: [{
-                            data: yValues,
-                            type: 'line',
-                            smooth: true,
-                            symbol: 'none',
-                            lineStyle: { width: 2 },
-                            markArea: {
-                                itemStyle: { color: 'rgba(200, 200, 200, 0.2)' },
-                                data: recessionRanges.map(([start, end]) => [
-                                    { name: 'Recession', xAxis: start },
-                                    { xAxis: end }
-                                ])
-                            }
-                        }]
-                    };
-
-                    return { id, option };
+                    return { id, xValues, yValues };
                 } catch (err) {
                     console.error(`Failed to fetch ${id}:`, err);
                     return null;
                 }
             });
 
-            const resolved = await Promise.all(promises);
-            setCharts(resolved.filter(Boolean));
+            const results = await Promise.all(promises);
+            setCharts(results.filter(Boolean));
         };
 
-        if (recessionRanges.length > 0) {
-            fetchCharts();
-        }
-    }, [recessionRanges]);
+        fetchCharts();
+    }, []);
+
+    const buildOption = (id, xValues, yValues) => {
+        const isLog = logScales[id] || false;
+        const markAreas = showRecessions
+            ? recessionRanges.map(([start, end]) => [
+                { name: 'Recession', xAxis: start },
+                { xAxis: end }
+            ])
+            : [];
+
+        return {
+            title: { text: id },
+            tooltip: { trigger: 'axis' },
+            xAxis: { type: 'category', data: xValues },
+            yAxis: {
+                type: isLog ? 'log' : 'value',
+                scale: true,
+                ...(isLog && { logBase: 10 })
+            },
+            dataZoom: [
+                { type: 'slider', start: 55, end: 100 },
+                { type: 'inside' }
+            ],
+            series: [{
+                data: yValues,
+                type: 'line',
+                smooth: true,
+                symbol: 'none',
+                lineStyle: { width: 2 },
+                markArea: showRecessions ? {
+                    itemStyle: { color: 'rgba(200, 200, 200, 0.2)' },
+                    data: markAreas
+                } : undefined
+            }]
+        };
+    };
 
     return (
-        <div className="card" style={{ padding: '20px' }}>
+        <div className="card" style={{ padding: '10px' }}>
             <h2>Economic Snapshot Dashboard</h2>
-            <p style={{ fontSize: '1rem', color: '#555', maxWidth: '800px', marginBottom: '30px' }}>
-                A curated set of economic indicators providing a snapshot of the U.S. economy. Scroll through interest rates, inflation, retail sales, and dollar strength to understand trends shaping the market.
-            </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '50px' }}>
-                {charts.map((chart, idx) => {
-                    const { title, description, source } = chartConfigs.find(c => c.id === chart.id) || {};
-                    return (
-                        <div key={idx} style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '10px' }}>
-                            <h3>{title}</h3>
-                            <ReactECharts option={chart.option} style={{ height: '400px' }} />
-                            <p style={{ marginTop: '15px', fontSize: '0.95rem', color: '#444' }}>
-                                {description}
-                                {source && (
-                                    <span> Source: <a href={source} target="_blank" rel="noreferrer">{new URL(source).hostname}</a></span>
-                                )}
-                            </p>
-                        </div>
-                    );
-                })}
+            <div style={{ marginBottom: '1rem' }}>
+                <Checkbox inputId="recessions" checked={showRecessions} onChange={e => setShowRecessions(e.checked)} />
+                <label htmlFor="recessions" style={{ marginLeft: '0.5rem' }}>
+                    Show shaded areas for U.S. recession periods
+                </label>
             </div>
+
+            <Divider />
+
+            {chartConfigs.map((row, rowIndex) => (
+                <div
+                    key={rowIndex}
+                    style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        width: '100%',
+                        marginBottom: '15px',
+                        gap: '10px'
+                    }}
+                    >
+                    {row.map(config => {
+                        const chart = charts.find(c => c.id === config.id);
+                        if (!chart) return null;
+
+                        return (
+                            <div
+                                key={config.id}
+                                style={{
+                                    width: getResponsiveWidth(row.length, 10),
+                                    maxWidth: getResponsiveWidth(row.length, 10),
+                                    padding: '20px',
+                                    boxSizing: 'border-box',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '10px'
+                                }}
+                                >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <h3>{config.title}</h3>
+                                    <div>
+                                        <Checkbox
+                                            inputId={`log-${config.id}`}
+                                            checked={logScales[config.id] || false}
+                                            onChange={e =>
+                                                setLogScales(prev => ({ ...prev, [config.id]: e.checked }))
+                                            }
+                                        />
+                                        <label htmlFor={`log-${config.id}`} style={{ marginLeft: '0.5rem' }}>
+                                            Logarithmic scale
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <ReactECharts
+                                    option={buildOption(config.id, chart.xValues, chart.yValues)}
+                                    style={{ height: '300px', width: '100%' }}
+                                    />
+
+                                <p style={{ marginTop: '15px', fontSize: '0.95rem', color: '#444' }}>
+                                    {config.description}
+                                    {config.source && (
+                                        <span>
+                                            {' '}Source:{' '}
+                                            <a href={config.source} target="_blank" rel="noreferrer">
+                                                {new URL(config.source).hostname}
+                                            </a>
+                                        </span>
+                                    )}
+                                </p>
+                            </div>
+                        );
+                    })}
+                </div>
+            ))}
         </div>
     );
 }
