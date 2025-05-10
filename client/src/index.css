@@ -1,13 +1,23 @@
+/* === GLOBAL RESET === */
+
+/* === PrimeReact NavBar Styling === */
 .custom-navbar .p-menuitem-text,
 .custom-navbar .p-menuitem-icon {
-    color: white !important;
+  color: white !important;
 }
 
 .custom-navbar .p-menuitem-link {
-    background-color: transparent !important; /* No gray background */
-    transition: background-color 0.3s;
+  background-color: transparent !important;
+  transition: background-color 0.3s;
 }
 
 .custom-navbar .p-menuitem-link:hover {
-    background-color: rgba(255, 255, 255, 0.2) !important; /* Nice light white on hover */
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* === Shared container for consistent layout === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }

@@ -68,18 +68,15 @@ function NavBar() {
         }
     ];
     return (
-        <div style={{
-            background: 'linear-gradient(to right, #007ad9, #66ccff)',
-            padding: '0.5rem 2rem',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-            marginBottom: '1rem'
-        }}>
+        <div>
             <Menubar
                 model={items}
                 style={{
-                    background: 'transparent',
                     border: 'none',
-                    color: 'white'
+                    color: 'white',
+                    background: 'linear-gradient(to right, #007ad9, #66ccff)',
+                    padding: '0.5rem 1.2rem',   // Restore comfortable spacing
+                    boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
                 }}
                 className="custom-navbar"
             />

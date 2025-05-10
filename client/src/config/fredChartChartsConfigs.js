@@ -34,5 +34,23 @@ export const chartConfigs = [
         title: 'Money Supply',
         description: 'The money supply.',
         source: 'https://www.investopedia.com/terms/f/federalfundsrate.asp'
+    }],
+    [{
+        id: 'CCLACBW027SBOG',
+        title: 'Consumer Loans: Credit Cards and Other Revolving Plans, All Commercial Banks',
+        description: 'Measures the strength of the U.S. dollar relative to other currencies.',
+        source: 'https://www.investopedia.com/terms/u/usdx.asp'
+    },
+    {
+        id: 'PSAVERT',
+        title: 'Personal Saving Rate',
+        description: 'Represents the percentage of the labor force that is unemployed and seeking work.',
+        source: 'https://www.investopedia.com/terms/u/unemployment_rate.asp'
+    },
+    {
+        id: 'LES1252881600Q',
+        title: 'Employed full time: Median usual weekly real earnings: Wage and salary workers: 16 years and over',
+        description: 'Represents the percentage of the labor force that is unemployed and seeking work.',
+        source: 'https://www.investopedia.com/terms/u/unemployment_rate.asp'
     }]
 ];
