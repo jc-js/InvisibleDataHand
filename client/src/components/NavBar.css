@@ -1,0 +1,8 @@
+.p-menubar .p-menubar-root-list {
+  display: flex;           /* ensure it’s a flex container */
+  flex: 1;                 /* take up all available space between start and end */
+  justify-content: center; /* center the <li> elements horizontally */
+  margin: 0;               /* remove any default UL margin/padding */
+  padding: 0;
+  list-style: none;
+}

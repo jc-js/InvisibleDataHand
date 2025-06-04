@@ -1,4 +1,6 @@
-html {
+@import "tailwindcss";
+
+/*html {
   font-size: 14px;
 }
 
@@ -18,3 +20,8 @@ body {
   border-radius: 10px;
   margin-bottom: 1rem;
 }
+
+.main-content {
+  padding-top: 0px; 
+}
+*/
