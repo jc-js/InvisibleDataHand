@@ -1,36 +1,63 @@
 import React from 'react';
 import { Button } from 'primereact/button';
+import { Carousel } from 'primereact/carousel';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const navigate = useNavigate();
+
+    const logos = [
+  { name: 'BSL',     image: '/carousel_logos/BLS_logo.png' },
+  { name: 'FRED',    image: '/carousel_logos/fred_logo.png' },
+  { name: 'IMF',     image: '/carousel_logos/imf_logo.png' },
+  { name: 'OECD', image: '/carousel_logos/OECD_logo.png' },
+  { name: 'Open Exchange Rates',    image: '/carousel_logos/open_exchange_rates_logo.png' },
+  { name: 'OWID',     image: '/carousel_logos/OWID_logo.png' },
+  { name: 'The World Bank',    image: '/carousel_logos/the_world_bank_logo.png' },
+  { name: 'UN Comtrade',  image: '/carousel_logos/UN_comtrade_logo.png' }
+];
+
+const responsiveOptions = [
+  { breakpoint: '1024px', numVisible: 5 },
+  { breakpoint: '768px',  numVisible: 3 },
+  { breakpoint: '560px',  numVisible: 1 }
+];
+
+const logoTemplate = (logo) => (
+  <div className="p-d-flex p-jc-center p-ai-center p-p-4">
+    <img
+      src={logo.image}
+      alt={logo.name}
+      className="p-mx-4"
+      style={{ maxHeight: '3rem' }}
+    />
+  </div>
+);
 
     return (
 <div className="flex flex-col">
 
 {/* ─── HERO CARD SECTION ────────────────────────────────────────── */}
 <section className="py-20 px-6">
-  <div className="max-w-7xl mx-auto">
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden md:flex">
-      {/* Image side */}
-      <div
-        className="md:w-1/2 h-64 md:h-auto bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1677871598276-85b14ea353ce?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
-        }}
-      />
-
-      {/* Text side */}
-      <div className="md:w-1/2 p-8 flex flex-col justify-center">
-        <h1 className="text-[3.5rem] font-bold mb-4 text-gray-900">
+    <div className="max-w-7xl mx-auto">
+    <div
+      className="
+        relative rounded-lg overflow-hidden
+        h-96 md:h-[500px]
+        bg-[url('https://images.unsplash.com/photo-1677871598276-85b14ea353ce?q=80&w=2070&auto=format&fit=crop')]
+        bg-cover bg-center
+      "
+    >
+      <div className="absolute inset-0" />
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 sm:px-12">
+        <h1 className="text-[3.5rem] font-bold text-white mb-4">
           Build Your Economic Dashboard
         </h1>
-        <p className="text-lg md:text-xl mb-6 text-gray-700">
+        <p className="text-lg md:text-xl mb-6 text-white">
           Visualize key economic indicators, analyze trends, and build
           custom reports — all in a few clicks.
         </p>
-        <div className="flex flex-col sm:flex-row gap-7">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Button
             label="Start Building"
             icon="pi pi-plus-circle"
@@ -48,6 +75,40 @@ function Home() {
     </div>
   </div>
 </section>
+
+      {/* ─── TOP SOURCES CAROUSEL ──────────────────────────────────── */}
+<section className="py-20 px-6 bg-gray-50">
+  <h2 className="text-3xl font-bold text-center mb-12">Top soruces from</h2>
+
+      <Carousel
+        value={logos}
+        numVisible={5}
+        numScroll={1}
+        responsiveOptions={responsiveOptions}
+        circular
+        autoplayInterval={2500}
+        itemTemplate={logoTemplate}
+        showIndicators={false}
+        showNavigators={false}
+        className="p-w-full p-max-w-6xl p-mx-auto"
+      />
+</section>
+
+        {/* ─── GET STARTED IN SECONDS ───────────────────────────── */}
+      <section className="py-20 px-6">
+        <h2 className="text-3xl font-bold text-center mb-12">Get Started in Seconds</h2>
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-lg mb-6">
+            No setup required. Just select your indicators, customize your view, and start analyzing.
+          </p>
+          <Button
+            label="Try It Now"
+            icon="pi pi-play"
+            onClick={() => navigate('/builder')}
+            className="p-button-raised p-button-rounded"
+          />
+        </div>
+      </section>
 
       {/* ─── WHAT YOU CAN BUILD ────────────────────────────────────── */}
       <section className="py-20 px-6 bg-gray-50">

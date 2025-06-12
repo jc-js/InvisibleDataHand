@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menubar } from 'primereact/menubar';
+import { Avatar } from 'primereact/avatar';
 import './NavBar.css';
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import "primeicons/primeicons.css";
@@ -20,24 +21,17 @@ function NavBar() {
     ];
 
     const start = (
-        <i
-        className="pi pi-github"
-        style={{ fontSize: '1.5rem', cursor: 'pointer', color: 'white' }}
-        onClick={() => navigate('/')}
-        />
+        <h3 className="p-menubar-title">
+          Invisible Hand
+        </h3>
     );
 
     const end = (
-        <i
-        className="pi pi-user"
-        style={{ fontSize: '1.5rem', cursor: 'pointer', color: 'white' }}
-        onClick={() => navigate('/user')}
-        />
+        <Avatar label="JC" shape="circle" />
     );
 
   return (
     <Menubar
-     className='bg-[#ff6347] p-8 text-white'
       model={items}
       start={start}
       end = {end}
