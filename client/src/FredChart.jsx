@@ -107,8 +107,9 @@ function FredChart() {
     };
 
     return (
-        <div className="card" style={{ padding: '10px' }}>
-            <h2>Economic Snapshot Dashboard</h2>
+        <div className="card" style={{ marginTop: '0.3rem', padding: '0.75rem' }}>
+
+            <h2 style={{ marginTop: 0, marginBottom: '0.3rem' }}>Economic Snapshot Dashboard</h2>
 
             <div style={{ marginBottom: '1rem' }}>
                 <Checkbox inputId="recessions" checked={showRecessions} onChange={e => setShowRecessions(e.checked)} />
@@ -126,7 +127,7 @@ function FredChart() {
                         display: 'flex',
                         flexWrap: 'wrap',
                         width: '100%',
-                        marginBottom: '15px',
+                        marginBottom: '10px',
                         gap: '10px'
                     }}
                     >
@@ -140,30 +141,30 @@ function FredChart() {
                                 style={{
                                     width: getResponsiveWidth(row.length, 10),
                                     maxWidth: getResponsiveWidth(row.length, 10),
-                                    padding: '20px',
+                                    padding: '5px',
                                     boxSizing: 'border-box',
                                     border: '1px solid #ccc',
                                     borderRadius: '10px'
                                 }}
                                 >
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <h3>{config.title}</h3>
-                                    <div>
+                                    
+                                    <div style={{ marginBottom: '0.5rem' }}>
                                         <Checkbox
-                                            inputId={`log-${config.id}`}
-                                            checked={logScales[config.id] || false}
+                                            inputId={`log-${config.title}`}
+                                            checked={logScales[config.title] || false}
                                             onChange={e =>
-                                                setLogScales(prev => ({ ...prev, [config.id]: e.checked }))
+                                                setLogScales(prev => ({ ...prev, [config.title]: e.checked }))
                                             }
                                         />
-                                        <label htmlFor={`log-${config.id}`} style={{ marginLeft: '0.5rem' }}>
+                                        <label htmlFor={`log-${config.title}`} style={{ marginLeft: '0.5rem' }}>
                                             Logarithmic scale
                                         </label>
                                     </div>
                                 </div>
 
                                 <ReactECharts
-                                    option={buildOption(config.id, chart.xValues, chart.yValues)}
+                                    option={buildOption(config.title, chart.xValues, chart.yValues)}
                                     style={{ height: '300px', width: '100%' }}
                                     />
 

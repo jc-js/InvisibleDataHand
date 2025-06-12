@@ -13,12 +13,14 @@ function App() {
     <>
       <BrowserRouter>
         <NavBar></NavBar>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/chart" element={<FredChart />} /> {/* Add this line */}
-          <Route path="/compare" element={<DualChart />} />
-          <Route path="/builder" element={<ChartBuilder />} />
-        </Routes>
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/chart" element={<FredChart />} /> {/* Add this line */}
+            <Route path="/compare" element={<DualChart />} />
+            <Route path="/builder" element={<ChartBuilder />} />
+          </Routes>
+        </div>
       </BrowserRouter>
 
     </>
