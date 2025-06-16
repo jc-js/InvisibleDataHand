@@ -1,5 +1,7 @@
 # InvisibleDataHand
 
+##test
+
 ## How to Run the Project
 
 1. **Install Docker**  
@@ -47,3 +49,27 @@ npm run dev
 - Inflation: FPCPITOTLZGUSA
 - Unemployment Rate: UNRATE
 - Federal Funds Effective Rate: FEDFUNDS
+
+## Unit test
+
+### Server
+From the server directory:
+```bash
+cd server
+```
+Install test dependecies:
+```bash
+pip install pytest pytest-asyncio pytest-cov httpx pytest-mock
+
+```
+Run test:
+```bash
+pytest
+```
+```bash
+python -m pytest
+```
+Run with coverage:
+```bash
+pytest --cov=app
+```
