@@ -47,3 +47,5 @@ npm run dev
 - Inflation: FPCPITOTLZGUSA
 - Unemployment Rate: UNRATE
 - Federal Funds Effective Rate: FEDFUNDS
+
+ chmod +x init-localstack.sh
